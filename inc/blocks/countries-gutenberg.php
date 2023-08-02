@@ -49,7 +49,17 @@ Block::make('countries', __('Все страны'))
             <?php echo $fields['countries_hero_in_text_title']; ?>
           </div>
           <h1 class="h1 text-splitter">
-            Countries
+            <?php
+              $current_lang = pll_current_language();
+
+              if ($current_lang === 'en'):
+                echo 'Countries';
+
+              elseif ($current_lang === 'ru'):
+                echo 'Страны';
+
+              endif;
+            ?>
           </h1>
         </div>
       </div>
@@ -60,7 +70,20 @@ Block::make('countries', __('Все страны'))
           <use xlink:href="#arr-d2"></use>
         </svg>
       </span>
-      <span class="stt">scroll down</span></button><!-- scroll-btn -->
+      <span class="stt">
+        <?php
+          $current_lang = pll_current_language();
+
+          if ($current_lang === 'en'):
+            echo 'scroll down';
+
+          elseif ($current_lang === 'ru'):
+            echo 'прокрутка вниз';
+
+          endif;
+        ?>
+      </span>
+    </button><!-- scroll-btn -->
   </div>
 </div><!-- hero-in -->
 

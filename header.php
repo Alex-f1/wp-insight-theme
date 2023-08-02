@@ -183,6 +183,10 @@
 					</a>
 					<?php endif; ?>
 
+					<?php
+            $current_lang = pll_current_language();
+          ?>
+					<?php if ($current_lang !== 'en'): ?>
 					<div class="languages">
 						<div class="languages__active">
 							<a href="#" class="languages__active">
@@ -211,7 +215,8 @@
 						</div>
 						
 					</div><!-- languages -->
-
+					<?php endif; ?>
+					
 					<div class="header__burger js-menu">
 						<span class="svg-icon svg-icon--menu" aria-hidden="true">
 							<svg class="svg-icon__link">

@@ -35,16 +35,22 @@ foreach ($categories as $category) {
 <?php
   // Блок "Страны - countries"
   
-  $countries = get_posts([
-    'post_type' => 'countries',
-    'posts_per_page' => -1,
-    'order' => 'ASC',
-  ]);
+  // Блок "Страны - популярные/дочерние "
+
+  // Блок "Страны - популярные - countries"
+  $popular_countries_id = 17;
+  
+  $popular_countries_children = get_categories(
+    array(
+      'child_of' => $popular_countries_id,
+      'hide_empty' => 0
+    )
+  );
 
   $countries_count_publish = wp_count_posts("countries")->publish;
 ?>
 
-<?php if ( $countries ): ?>
+<?php if ($popular_countries_children ): ?>
 <section class="countries container">
   <div class="countries__in">
     <div class="countries__image">
@@ -67,12 +73,27 @@ foreach ($categories as $category) {
       <div class="countries-list__items js-countries js-autoplay swiper">
         <div class="countries-list__items-in swiper-wrapper">
         
-          <?php
+          <?php if ($popular_countries_children) : ?>
+          <?php foreach ($popular_countries_children as $cat) : ?>
 
-            foreach( $countries as $post ){
-              setup_postdata( $post );
-    
-          ?>
+            <?php
+            
+            // Дочерние 
+            $popular_countries_child = get_posts(
+              array(
+                'category' => $cat->cat_ID,
+                'post_type' => 'countries',
+                'posts_per_page' => 10,
+                'orderby' => 'post_date',
+                'order' => 'DESC',
+              ));
+            ?> 
+            <?php 
+              
+              foreach ($popular_countries_child as $post) : 
+                setup_postdata($post);
+          
+            ?>
           <div class="countries-list__item swiper-slide">
             <a class="countries-list__item-in" href="<?php the_permalink(); ?>">
               <span class="countries-list__item-img">
@@ -82,12 +103,9 @@ foreach ($categories as $category) {
               <span class="countries-list__item-text"><?php the_excerpt(); ?></span>
             </a>
           </div>
-          <?php
-            }
-
-            wp_reset_postdata();
-
-          ?>
+          <?php endforeach; ?>
+          <?php endforeach; wp_reset_postdata(); ?>
+        <?php endif; ?>
 
         </div>
       </div>

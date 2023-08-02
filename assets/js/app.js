@@ -96,15 +96,17 @@ $(function () {
         closingForm();
       } else {
         var url = $this.attr('href').replace('#', '');
-        $('.b-modal').filter('[data-modal=' + url + ']').addClass('opened').find('[tabindex="1"]').focus();
+        $('.b-modal').filter('[data-modal=' + url + ']').addClass('opened'); // .find('[tabindex="1"]')
+        // .focus()
 
         if (!isSafari) {
           disableHtmlScroll();
           addGutter();
-          setTimeout(function () {
-            $('.b-modal').filter('[data-modal=' + url + ']').find('.b-modal__close').focus();
-          }, 500);
         }
+
+        setTimeout(function () {
+          $('.b-modal').filter('[data-modal=' + url + ']').find('.b-modal__close').focus();
+        }, 500);
       }
     });
     $('.b-modal').on('click tap', function (event) {
@@ -149,7 +151,13 @@ $(function () {
 
         removeGutter();
       }, 500);
-    }
+    } // $('.b-modal [tabindex="1"]').on('focus', function(){
+    //   $('.b-modal [tabindex="2"]').focus()
+    // })
+    // $('.b-modal [tabindex="11"]').on('focus', function(){
+    //   $('.b-modal [tabindex="1"]').focus()
+    // })
+
   })();
 
   var companySeoSlider = $('.js-company-ceo-slider');
@@ -474,6 +482,13 @@ $(function () {
         var trsc = cper -= sst;
         var opst = 1 - $(document).scrollTop() / coeff1;
         var opst2 = 1 + $(document).scrollTop() / coeff2;
+        var opasityStart = 0.285;
+        var opasityOut = opst2 / 3.5;
+
+        if ($('.hero video').length > 0) {
+          opasityStart = 0;
+          opasityOut = docScrollTop / $('.js-hero').height() * 100 / 100;
+        }
 
         if ($(window).width() >= 1200 && !isSafari) {
           $('.js-translate').css({
@@ -485,7 +500,8 @@ $(function () {
           'opacity': opst
         });
         $('.js-shadow').css({
-          'opacity': opst2 / 3.5
+          'opacity': opasityOut // 'opacity': ((docScrollTop/$('.js-hero').height()) * 100 / 100)
+
         });
       }
 
@@ -494,7 +510,7 @@ $(function () {
           'opacity': 1
         });
         $('.js-shadow').css({
-          'opacity': 0.285
+          'opacity': opasityStart
         });
       }
     });
@@ -595,8 +611,26 @@ $(function () {
       }
     });
   });
-  $('.languages').on('click', function () {
-    $(this).toggleClass('is-opened');
+  $('.languages__active').on('click', function (event) {
+    event.preventDefault();
+    $(this).closest('.languages').toggleClass('is-opened');
+  });
+  $(document).on('click', function () {
+    if ($(event.target).closest('.languages').length) return;
+    $('.languages').removeClass('is-opened');
+  });
+  $('.main-menu li').each(function () {
+    if ($(this).children('ul').length) {
+      $(this).addClass('has-child');
+      $(this).find('>a, >span').append('<span class="m-tgl">');
+    }
+  });
+  $('.mobile-sidebar .has-child').on('click', function (evt) {
+    if (isMobile) {
+      evt.preventDefault();
+    }
+
+    $(this).toggleClass('is-opened').find('>ul').stop().slideToggle(200);
   });
   $('.js-menu').on('click', function () {
     $('.mobile-sidebar').toggleClass('opened');
@@ -647,7 +681,7 @@ $(function () {
     enableHtmlScroll();
   });
   var delay = 0;
-  $('.mobile-sidebar .main-menu ul li').each(function (i) {
+  $('.mobile-sidebar .main-menu > ul > li').each(function (i) {
     if (i == 0) {
       $(this).css({
         animationDelay: '0s'
@@ -666,6 +700,12 @@ $(function () {
         animationDelay: '.' + delay + 's'
       });
       delay += 100;
+    }
+  });
+  $(window).on('resize', function () {
+    if ($(window).width() >= 992 && $('.mobile-sidebar').hasClass('opened')) {
+      enableHtmlScroll();
+      $('.mobile-sidebar').removeClass('opened');
     }
   });
   $('.js-more-btn').on('click', function () {
@@ -818,7 +858,7 @@ $(function () {
 
     if ($(window).width() < 768) {
       $('.services__container-wrap').css({
-        'margin-top': -iHeight - 6,
+        'margin-top': -iHeight,
         'margin-bottom': -(iHeight / 2) + 6
       });
       $('.services__item').css({

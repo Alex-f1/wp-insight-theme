@@ -178,8 +178,32 @@
     wp_reset_postdata(); 
     ?>
 
-    <h2>Popular Destionations <?php echo $popular_countries_children_name; ?></h2>
-    <p>Interesting countries in <?php echo $popular_countries_children_name; ?> </p>
+    <h2>
+      <?php
+        $current_lang = pll_current_language();
+
+        if ($current_lang === 'en'):
+          echo 'Popular Destinations';
+
+        elseif ($current_lang === 'ru'):
+          echo 'Популярные направления';
+
+        endif;
+      ?>
+      <?php echo $popular_countries_children_name; ?></h2>
+    <p>
+      <?php
+        $current_lang = pll_current_language();
+
+        if ($current_lang === 'en'):
+          echo 'Interesting countries in';
+
+        elseif ($current_lang === 'ru'):
+          echo 'Интересные страны в';
+
+        endif;
+      ?>
+      <?php echo $popular_countries_children_name; ?> </p>
   </div>
   <div class="countries-list-wrapper swiper-parent">
     <div class="countries-list type-2">
@@ -190,8 +214,7 @@
           <?php foreach ($popular_countries_children as $cat) : ?>
 
             <?php
-
-
+            
             // Дочерние 
             $popular_countries_child = get_posts(
               array(
