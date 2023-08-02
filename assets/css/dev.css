@@ -1,0 +1,30 @@
+.current-lang {
+  display: none;
+}
+
+.current-menu-item a {
+  text-shadow: 0 0 30px #e8d4b5, 0 0 20px #e8d4b5;
+}
+
+.languages__active .ttx, .languages__item a {
+  text-transform: capitalize;
+}
+
+.wpcf7 .wpcf7-list-item {
+  margin-left: 0;
+}
+.wpcf7 .wpcf7-list-item-label {
+  margin-left: 0;
+  display: flex;
+  align-items: center;
+}
+
+.countries-list.type-2 .countries-list__item-name {
+  max-width: 200px;
+}
+
+@media (min-width: 1200px) and (max-width: 1440px) {
+  .header__content {
+    padding: 20px 40px 13px;
+  }
+}
