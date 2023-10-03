@@ -209,12 +209,21 @@ foreach ($categories as $category) {
         foreach( $services_dubai as $item ) {
 
       ?>
+      <?php if (carbon_get_term_meta( $item->term_id, 'service_show' )) : ?>
       <a class="services2__item" href="<?php echo get_term_link($item->term_id, $item->taxonomy); ?>">
         <span class="services2__item-title text-splitter">
-          <?php echo $item->name ?>
+          <?php if (carbon_get_term_meta( $item->term_id, 'service_preview_main_title' )) : ?>
+            <?php echo carbon_get_term_meta( $item->term_id, 'service_preview_main_title' ) ?>
+          <?php else: ?>
+            <?php echo $item->name ?>
+          <?php endif; ?>
         </span>
         <span class="services2__item-image">
-          <img src="<?php echo wp_get_attachment_image_url(carbon_get_term_meta($item->term_id, 'service_img'), 'full'); ?>" alt width="713" height="250" loading="lazy">
+          <?php if (carbon_get_term_meta( $item->term_id, 'service_preview_main_img' )) : ?>
+            <img src="<?php echo wp_get_attachment_image_url(carbon_get_term_meta($item->term_id, 'service_preview_main_img'), 'full'); ?>" alt width="713" height="250" loading="lazy">
+          <?php else: ?>
+            <img src="<?php echo wp_get_attachment_image_url(carbon_get_term_meta($item->term_id, 'service_img'), 'full'); ?>" alt width="713" height="250" loading="lazy">
+          <?php endif; ?>
         </span>
         <span class="services2__item-icon">
           <span class="svg-icon svg-icon--arr-r2" aria-hidden="true">
@@ -224,6 +233,8 @@ foreach ($categories as $category) {
           </span>
         </span>
       </a>
+      <?php endif; ?>
+      
       <?php
         }
 

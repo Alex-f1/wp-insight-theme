@@ -8,95 +8,57 @@
   <div class="services__items-wrap container">
     <div class="services__items">
       <?php
-        /* $service = get_terms([
+         $service = get_terms([
           'taxonomy' => 'service',
           'hide_empty' => false,
           'child_of' => 0,
-          'orderby' => 'name',
+          'orderby' => 'id',
           'order' => 'ASC'
-        ]); */
+        ]);
 
-        $hotels_id = 34;
-        $apartments_id = 36;
-        $villas_id = 38;
+      foreach( $service as $key=>$item ) {
+        $service_choice = carbon_get_term_meta( $item->term_id, 'service_choice' );
+      ?>
+        <?php if ($service_choice == "service_choice_for_placement") : ?>
+          <?php if (carbon_get_term_meta( $item->term_id, 'service_show' )) : ?>
+          <div class="services__item rellax" data-rellax-min="0" data-rellax-percentage="0.4" data-rellax-speed="<?php if ($key == 0) {echo 3.5;} else if ($key == 1) {echo 7;} else if ($key == 2) {echo 14;} ?>">
+            <a class="services__item-link" href="<?php echo get_term_link($item->term_id, $item->taxonomy); ?>" aria-label="<?php echo $item->name ?>"></a>
+            <div class="services__item-image">
+              <?php if (carbon_get_term_meta( $item->term_id, 'service_preview_main_img' )) : ?>
+                  <img src="<?php echo wp_get_attachment_image_url(carbon_get_term_meta($item->term_id, 'service_preview_main_img'), 'full'); ?>" alt width="613" height="1053" loading="lazy">
+              <?php else: ?>
+                  <img src="<?php echo wp_get_attachment_image_url(carbon_get_term_meta($item->term_id, 'service_img'), 'full'); ?>" alt loading="lazy" width="613" height="1053">
+              <?php endif; ?>
+            </div>
+            <div class="services__item-container">
+              <div class="services__item-text text-splitter">
+                <?php echo $item->description ?>
+              </div>
+              <div class="services__item-title text-splitter">
+                <?php if (carbon_get_term_meta( $item->term_id, 'service_preview_main_title' )) : ?>
+                  <?php echo carbon_get_term_meta( $item->term_id, 'service_preview_main_title' ) ?>
+                <?php else: ?>
+                  <?php echo $item->name ?>
+                <?php endif; ?>
+              </div>
+              <div class="services__item-icon">
+                <span class="svg-icon svg-icon--arr-r2" aria-hidden="true">
+                  <svg class="svg-icon__link">
+                    <use xlink:href="#arr-r2"></use>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+          <?php endif; ?>
+        <?php endif; ?>
+      <?php
+          }
 
-        $hotels = get_term($hotels_id);
-        $apartments = get_term($apartments_id);
-        $villas = get_term($villas_id);
-
-        $flights_id = 40;
-        $airport_id = 42;
-        $transfer_id = 44;
-
-        $flights = get_term($flights_id);
-        $airport = get_term($airport_id);
-        $transfer = get_term($transfer_id);
+          wp_reset_postdata();
 
       ?>
-      
-      <div class="services__item rellax" data-rellax-min="0" data-rellax-percentage="0.4" data-rellax-speed="3.5">
-        <a class="services__item-link" href="<?php echo get_term_link($hotels_id, $hotels->taxonomy); ?>" aria-label="<?php echo $hotels->name ?>"></a>
-        <div class="services__item-image">
-          <img src="<?php echo wp_get_attachment_image_url(carbon_get_term_meta($hotels_id, 'service_img'), 'full'); ?>" alt loading="lazy" width="613" height="1053">
-        </div>
-        <div class="services__item-container">
-          <div class="services__item-text text-splitter">
-            <?php echo $hotels->description ?>
-          </div>
-          <div class="services__item-title text-splitter">
-            <?php echo $hotels->name ?>
-          </div>
-          <div class="services__item-icon">
-            <span class="svg-icon svg-icon--arr-r2" aria-hidden="true">
-              <svg class="svg-icon__link">
-                <use xlink:href="#arr-r2"></use>
-              </svg>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="services__item rellax" data-rellax-min="0" data-rellax-percentage="0.4" data-rellax-speed="7">
-        <a class="services__item-link" href="<?php echo get_term_link($apartments_id, $apartments->taxonomy); ?>" aria-label="<?php echo $apartments->name ?>"></a>
-        <div class="services__item-image">
-          <img src="<?php echo wp_get_attachment_image_url(carbon_get_term_meta($apartments_id, 'service_img'), 'full'); ?>" alt loading="lazy" width="613" height="1053">
-        </div>
-        <div class="services__item-container">
-          <div class="services__item-text text-splitter">
-            <?php echo $apartments->description ?>
-          </div>
-          <div class="services__item-title text-splitter">
-            <?php echo $apartments->name ?>
-          </div>
-          <div class="services__item-icon">
-            <span class="svg-icon svg-icon--arr-r2" aria-hidden="true">
-              <svg class="svg-icon__link">
-                <use xlink:href="#arr-r2"></use>
-              </svg>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="services__item rellax" data-rellax-min="0" data-rellax-percentage="0.4" data-rellax-speed="14">
-        <a class="services__item-link" href="<?php echo get_term_link($villas_id, $villas->taxonomy); ?>" aria-label="<?php echo $villas->name ?>"></a>
-        <div class="services__item-image">
-          <img src="<?php echo wp_get_attachment_image_url(carbon_get_term_meta($villas_id, 'service_img'), 'full'); ?>" alt loading="lazy" width="613" height="1053">
-        </div>
-        <div class="services__item-container">
-          <div class="services__item-text text-splitter">
-            <?php echo $villas->description ?>
-          </div>
-          <div class="services__item-title text-splitter">
-            <?php echo $villas->name ?>
-          </div>
-          <div class="services__item-icon">
-            <span class="svg-icon svg-icon--arr-r2" aria-hidden="true">
-              <svg class="svg-icon__link">
-                <use xlink:href="#arr-r2"></use>
-              </svg>
-            </span>
-          </div>
-        </div>
-      </div>
+
     </div>
   </div>
   <div class="services__container-wrap">
@@ -133,69 +95,58 @@
   </div>
   <div class="services__items-wrap container">
     <div class="services__items rellaxxx" data-rellax-min="-100" data-rellax-speed="10">
-      <div class="services__item rellax" data-rellax-min="0" data-rellax-percentage="0.4" data-rellax-speed="3.5">
-        <a class="services__item-link" href="<?php echo get_term_link($flights_id, $flights->taxonomy); ?>" aria-label="<?php echo $flights->name ?>"></a>
-        <div class="services__item-image">
-          <img src="<?php echo wp_get_attachment_image_url(carbon_get_term_meta($flights_id, 'service_img'), 'full'); ?>" alt loading="lazy" width="613" height="1053">
-        </div>
-        <div class="services__item-container">
-          <div class="services__item-text text-splitter">
-            <?php echo $flights->description ?>
+      <?php
+      $service_airport = get_terms([
+        'taxonomy' => 'service',
+        'hide_empty' => false,
+        'child_of' => 0,
+        'orderby' => 'id',
+        'order' => 'ASC'
+      ]);
+
+      foreach( $service_airport as $key=>$item ) {
+        $service_choice = carbon_get_term_meta( $item->term_id, 'service_choice' );
+      ?>
+      <?php if ($service_choice == "service_choice_for_airports") : ?>
+          <?php if (carbon_get_term_meta( $item->term_id, 'service_show' )) : ?>
+          <div class="services__item rellax" data-rellax-min="0" data-rellax-percentage="0.4" data-rellax-speed="<?php if ($key == 3) {echo 3.5;} else if ($key == 4) {echo 7;} else if ($key == 5) {echo 14;} ?>">
+            <a class="services__item-link" href="<?php echo get_term_link($item->term_id, $item->taxonomy); ?>" aria-label="<?php echo $item->name ?>"></a>
+            <div class="services__item-image">
+            <?php if (carbon_get_term_meta( $item->term_id, 'service_preview_main_img' )) : ?>
+                <img src="<?php echo wp_get_attachment_image_url(carbon_get_term_meta($item->term_id, 'service_preview_main_img'), 'full'); ?>" alt width="613" height="1053" loading="lazy">
+            <?php else: ?>
+                <img src="<?php echo wp_get_attachment_image_url(carbon_get_term_meta($item->term_id, 'service_img'), 'full'); ?>" alt loading="lazy" width="613" height="1053">
+            <?php endif; ?>
+            </div>
+            <div class="services__item-container">
+              <div class="services__item-text text-splitter">
+                <?php echo $item->description ?>
+              </div>
+              <div class="services__item-title text-splitter">
+                <?php if (carbon_get_term_meta( $item->term_id, 'service_preview_main_title' )) : ?>
+                  <?php echo carbon_get_term_meta( $item->term_id, 'service_preview_main_title' ) ?>
+                <?php else: ?>
+                  <?php echo $item->name ?>
+                <?php endif; ?>
+              </div>
+              <div class="services__item-icon">
+                <span class="svg-icon svg-icon--arr-r2" aria-hidden="true">
+                  <svg class="svg-icon__link">
+                    <use xlink:href="#arr-r2"></use>
+                  </svg>
+                </span>
+              </div>
+            </div>
           </div>
-          <div class="services__item-title text-splitter">
-            <?php echo $flights->name ?>
-          </div>
-          <div class="services__item-icon">
-            <span class="svg-icon svg-icon--arr-r2" aria-hidden="true">
-              <svg class="svg-icon__link">
-                <use xlink:href="#arr-r2"></use>
-              </svg>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="services__item rellax" data-rellax-min="0" data-rellax-percentage="0.4" data-rellax-speed="7">
-        <a class="services__item-link" href="<?php echo get_term_link($airport_id, $airport->taxonomy); ?>" aria-label="<?php echo $airport->name ?>"></a>
-        <div class="services__item-image">
-          <img src="<?php echo wp_get_attachment_image_url(carbon_get_term_meta($airport_id, 'service_img'), 'full'); ?>" alt loading="lazy" width="613" height="1053">
-        </div>
-        <div class="services__item-container">
-          <div class="services__item-text text-splitter">
-            <?php echo $airport->description ?>
-          </div>
-          <div class="services__item-title text-splitter">
-            <?php echo $airport->name ?>
-          </div>
-          <div class="services__item-icon">
-            <span class="svg-icon svg-icon--arr-r2" aria-hidden="true">
-              <svg class="svg-icon__link">
-                <use xlink:href="#arr-r2"></use>
-              </svg>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="services__item rellax" data-rellax-min="0" data-rellax-percentage="0.4" data-rellax-speed="14">
-        <a class="services__item-link" href="<?php echo get_term_link($transfer_id, $transfer->taxonomy); ?>" aria-label="<?php echo $transfer->name ?>"></a>
-        <div class="services__item-image">
-          <img src="<?php echo wp_get_attachment_image_url(carbon_get_term_meta($transfer_id, 'service_img'), 'full'); ?>" alt loading="lazy" width="613" height="1053">
-        </div>
-        <div class="services__item-container">
-          <div class="services__item-text text-splitter">
-            <?php echo $transfer->description ?>
-          </div>
-          <div class="services__item-title text-splitter">
-            <?php echo $transfer->name ?>
-          </div>
-          <div class="services__item-icon">
-            <span class="svg-icon svg-icon--arr-r2" aria-hidden="true">
-              <svg class="svg-icon__link">
-                <use xlink:href="#arr-r2"></use>
-              </svg>
-            </span>
-          </div>
-        </div>
-      </div>
+          <?php endif; ?>
+        <?php endif; ?>
+      <?php
+          }
+
+          wp_reset_postdata();
+
+      ?>
+      
     </div>
   </div>
 </section><!-- services -->

@@ -340,7 +340,7 @@ function register_post_types() {
 		'menu_icon' => 'dashicons-products',
 		'hierarchical' => false,
 		'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'author'),
-		'taxonomies' => array('service', 'dubai', 'entertainment'),
+		'taxonomies' => array('service', 'dubai', 'entertainment', 'post_tag'),
 		'has_archive' => false,
 		'rewrite' => array(
 			'slug' => 'services',

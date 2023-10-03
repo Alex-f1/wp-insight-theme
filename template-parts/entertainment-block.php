@@ -27,62 +27,48 @@
     </div>
     <div class="entertainment__items">
       <?php
-        /* $service = get_terms([
+         $service_entertainment = get_terms([
           'taxonomy' => 'entertainment',
           'hide_empty' => false,
           'child_of' => 0,
-          'orderby' => 'name',
+          'orderby' => 'id',
           'order' => 'ASC'
-        ]); */
+        ]);
 
-        $restaurants_id = 48;
+        /*$restaurants_id = 48;
         $beach_clubs_id = 50;
         $tickets_id = 52;
 
         $restaurants = get_term($restaurants_id);
         $beach_clubs = get_term($beach_clubs_id);
-        $tickets = get_term($tickets_id);
+        $tickets = get_term($tickets_id);*/
+
+        foreach( $service_entertainment as $item ) {
 
       ?>
-      <a class="entertainment__item" href="<?php echo get_term_link($restaurants_id, $restaurants->taxonomy); ?>" aria-label="<?php echo $restaurants->name ?>">
+      <?php if (carbon_get_term_meta( $item->term_id, 'service_show' )) : ?>
+      <a class="entertainment__item" href="<?php echo get_term_link($item->term_id, $item->taxonomy); ?>" aria-label="<?php echo $item->name; ?>">
         <span class="entertainment__item-icon">
-          <?php echo file_get_contents(wp_get_attachment_image_url(carbon_get_term_meta($restaurants_id, 'service_img'), 'full')); ?>
+          <?php echo file_get_contents(wp_get_attachment_image_url(carbon_get_term_meta($item->term_id, 'service_img'), 'full')); ?>
         </span>
         <span class="entertainment__item-container">
           <span class="entertainment__item-title">
-            <?php echo $restaurants->name ?>
+            <?php echo $item->name ?>
           </span>
           <span class="entertainment__item-text">
-            <?php echo $restaurants->description ?>
+            <?php echo $item->description ?>
           </span>
         </span>
       </a>
-      <a class="entertainment__item" href="<?php echo get_term_link($beach_clubs_id, $beach_clubs->taxonomy); ?>" aria-label="<?php echo $beach_clubs->name ?>">
-        <span class="entertainment__item-icon">
-          <?php echo file_get_contents(wp_get_attachment_image_url(carbon_get_term_meta($beach_clubs_id, 'service_img'), 'full')); ?>
-        </span>
-        <span class="entertainment__item-container">
-          <span class="entertainment__item-title">
-            <?php echo $beach_clubs->name ?>
-          </span>
-          <span class="entertainment__item-text">
-            <?php echo $beach_clubs->description ?>
-          </span>
-        </span>
-      </a>
-      <a class="entertainment__item"  href="<?php echo get_term_link($tickets_id, $tickets->taxonomy); ?>" aria-label="<?php echo $tickets->name ?>">
-        <span class="entertainment__item-icon">
-          <?php echo file_get_contents(wp_get_attachment_image_url(carbon_get_term_meta($tickets_id, 'service_img'), 'full')); ?>
-        </span>
-        <span class="entertainment__item-container">
-          <span class="entertainment__item-title">
-            <?php echo $tickets->name ?>
-          </span>
-          <span class="entertainment__item-text">
-            <?php echo $tickets->description ?>
-          </span>
-        </span>
-      </a>
+      <?php endif; ?>
+
+      <?php
+        }
+
+        wp_reset_postdata();
+
+      ?>
+
     </div>
   </div>
 </div><!-- entertainment -->

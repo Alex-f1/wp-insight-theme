@@ -105,21 +105,46 @@ Block::make('location', __('Локация'))
 
 <div class="hotels-and-villas container simple-list">
   <div class="hotels-and-villas__header">
-    <h2 class="hotels-and-villas__title h2 decor-title text-splitter">Top hotels in <?php the_title(); ?></h2>
+    <h2 class="hotels-and-villas__title h2 decor-title text-splitter">
+
+      <?php
+      global $post;
+
+      $title_current_post = $post->post_title;
+      $taxonomy_hotels_id = 0;
+      $current_lang = pll_current_language();
+
+      if ($current_lang === 'en'):
+        $taxonomy_hotels_id = 34;
+        echo "Top hotels in {$title_current_post}" ;
+
+      elseif ($current_lang === 'ru'):
+        echo "Топ отелей. {$title_current_post}";
+        $taxonomy_hotels_id = 54;
+      endif;
+      ?>
+
+    </h2>
   </div>
   <div class="hotels-and-villas__items">
 
     <?php
 
-      global $post;
 
       $services_posts = get_posts(
         array(
           'post_type' => 'services',
-          // 'post_parent' => $post->ID,
           'posts_per_page' => -1,
           'orderby' => 'post_title',
-          'order' => 'ASC'
+          'order' => 'ASC',
+          'tag' => $post->post_name,
+          'tax_query' => array(
+            array(
+              'taxonomy' => 'service',
+              'field' => 'id',
+              'terms' => $taxonomy_hotels_id
+            )
+          )
         )
       );
 

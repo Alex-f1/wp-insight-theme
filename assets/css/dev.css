@@ -23,6 +23,11 @@
   max-width: 200px;
 }
 
+.wpcf7-response-output {
+  background-color: #1c1c1c;
+  padding: 10px;
+}
+
 @media (min-width: 1200px) and (max-width: 1440px) {
   .header__content {
     padding: 20px 40px 13px;

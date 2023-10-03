@@ -214,7 +214,11 @@ function crb_attach_theme_options() {
     ->or_where('term_taxonomy', '=','dubai')
     ->or_where('term_taxonomy', '=','entertainment')
     ->add_fields(array(
-      Field::make('image', 'service_img', __('Изображение')),
+      // Превью для главной
+      Field::make('separator', 'service_preview_main_separator', __('Превью для главной')),
+      Field::make('image', 'service_preview_main_img', __('Превью изображение')),
+      Field::make('text', 'service_preview_main_title', __('Превью заголовок')),
+      Field::make('image', 'service_img', __('Общее изображение')),
       // Field::make( 'checkbox', 'crb_category_show', 'Отображать Страну'),
       // Первый экран
       Field::make('separator', 'service_hero_in_separator', __('Первый экран')),
@@ -243,6 +247,17 @@ function crb_attach_theme_options() {
       Field::make('text', 'service_contacts_us_text_title', __('Текст над заголовком')),
       Field::make('text', 'service_contacts_us_title', __('Заголовок')),
       Field::make('text', 'service_contacts_us_desc', __('Описание')),
+      // На главную
+      Field::make('separator', 'service_show_separator', __('Вывести на Главную')),
+      Field::make( 'select', 'service_choice', __( 'Выбор услуг' ) )
+        ->add_options( array(
+          'service_choice_for_placeholder' => __( 'Не выбрано' ),
+          'service_choice_for_placement' => __( 'Для размещения' ),
+          'service_choice_for_airports' => __( 'Для аэропорта' ),
+          'service_choice_for_rental' => __( 'Для аренды' ),
+        ) )->set_help_text( 'Выбирайте нужную услугу для Главной страницы. Распростроняется только для блоков "Расположения", "Аэропорта", "Аренда". В любом другом случае оставьте поле "Не выбрано".' ),
+      Field::make( 'checkbox', 'service_show', 'Выводить на Главную'),
+
     ));
 }
 
